@@ -1,5 +1,5 @@
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col
 
 name_on_order = st.text_input("Name for smoothie:")
@@ -7,7 +7,8 @@ name_on_order = st.text_input("Name for smoothie:")
 st.title("🥤 Customize Your Smoothie! 🥤")
 st.write("Choose the fruits you want in your custom Smoothie!")
 
-session = get_active_session()
+cnx = st.connection("snowflake")
+session = cnx.session()
 
 my_dataframe = session.table("SMOOTHIES.PUBLIC.FRUIT_OPTIONS").select(col("FRUIT_NAME"))
 
